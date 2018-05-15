@@ -21,12 +21,19 @@ public class KvKProviderService extends RestClient {
 
 	public ChamberOfCommerceDataSet getDataSet(String kvk) throws IOException {
 		ChamberOfCommerceDataSet set = new ChamberOfCommerceDataSet();
-		set.setCompanyCode(kvk);
-		String json = super.get("https://api.kvk.nl/api/v2/testsearch/companies?kvkNumber=" + kvk);
+		String json = super.get("https://api.kvk.nl/api/v2/testsearch/companies?q=" + kvk);
 		JsonNode root = new ObjectMapper().readTree(json.getBytes(StandardCharsets.UTF_8));
 		JsonNode node = root.get("data").get("items").get(0);
 		set.setCompanyCode(node.get("kvkNumber").asText());
 		set.setCompanyName(node.get("tradeNames").get("businessName").asText());
+		set.setCompanyType("NOT_AVAILABLE");
+		set.setLegalStatus("NOT_AVAILABLE");
+		set.setLegalStatusEffectiveDate("NOT_AVAILABLE");
+		set.setRegistrationAuthority("KamerVanKoophandel");
+		set.setRegistrationDate("NOT_AVAILABLE");
+		set.setRegistrationNumber("NOT_APPLICABLE");
+		set.setActivityDeclaration("NOT_AVAILABLE");
+		
 		Address address = new Address();
 		address.setStreetName(node.get("addresses").get(0).get("street").asText());
 		address.setPostalCode(node.get("addresses").get(0).get("postalCode").asText());
