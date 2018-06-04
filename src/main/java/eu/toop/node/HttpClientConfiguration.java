@@ -25,7 +25,7 @@ public class HttpClientConfiguration {
 	
 	@Bean
 	public HttpHost proxy() {
-		return new HttpHost("cacheflow.nic.agro.nl", 8080);
+		return null;
 	}
 	
 	@Bean

@@ -21,18 +21,21 @@ public class CountrySpecificProviderService extends RestClient {
 	
 	public ChamberOfCommerceDataSet getDataSet(String url, String kvk) throws IOException {
 		ChamberOfCommerceDataSet set = new ChamberOfCommerceDataSet();
-		set.setCompanyCode(kvk);
 		String json = super.get(url + kvk);
 		JsonNode root = new ObjectMapper().readTree(json.getBytes(StandardCharsets.UTF_8));
+
 		set.setCompanyName(root.get("companyName").asText());
-		
+		set.setCompanyCode(root.get("companyCode").asText());
+		set.setRegistrationAuthority("Central Coordinating Register for Legal Entities");
+		set.setRegistrationDate(root.get("registrationDate").asText());
+
 		Address address = new Address();
 		address.setStreetName(root.get("headOfficeAddres").get("streetName").asText());
 		address.setPostalCode(root.get("headOfficeAddres").get("postalCode").asText());
 		address.setCity(root.get("headOfficeAddres").get("city").asText());
 		address.setCountry(root.get("headOfficeAddres").get("country").asText());
 		set.setHeadOfficeAddres(address);
-		
+
 		return set;
 	}
 }
