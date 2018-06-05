@@ -10,10 +10,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CountryConfiguration {
 
-	@Bean
+	@Bean(name = "providers")
 	public Map<String, String> providerServices() {
 		Map<String, String> providerServices = Collections.synchronizedMap(new HashMap<>());
-		providerServices.put("NO", "http://localhost:8081/toopnode/provider/provide?id=");
+		providerServices.put("NL", "http://localhost:8081/toopnode/provider/provide?id=");
+		providerServices.put("NO", "http://localhost:8082/toopnode/provider/provide?id=");
 		return providerServices;
 	}
 }

@@ -26,7 +26,7 @@ public class CountrySpecificProviderService extends RestClient {
 
 		set.setCompanyName(root.get("companyName").asText());
 		set.setCompanyCode(root.get("companyCode").asText());
-		set.setRegistrationAuthority("Central Coordinating Register for Legal Entities");
+		set.setRegistrationAuthority(root.get("registrationAuthority").asText());
 		set.setRegistrationDate(root.get("registrationDate").asText());
 
 		Address address = new Address();

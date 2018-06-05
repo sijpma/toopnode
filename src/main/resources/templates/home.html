@@ -1,0 +1,83 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>TOOP Consumer Demo</title>
+
+    <link rel="stylesheet" th:href="@{/css/main.css}"
+          href="../../css/main.css" />
+
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/css-spinning-spinners/1.1.0/load1.css" />
+</head>
+<body>
+
+<div class="container">
+    <h1>TOOP Consumer Demo</h1>
+</div>
+
+    <div class="step" id="select">
+        <div class="container">
+            <h3>1. Select country to query</h3>
+            <ul class="provider-select clearfix">
+                <li th:each="provider : ${providerServices}">
+                    <label>
+                    <span class="flag">
+                        <img src="flag" th:src="'https://lipis.github.io/flag-icon-css/flags/4x3/' + ${provider.key.toLowerCase() + '.svg'}" />
+                    </span>
+                    <input type="radio" th:value="${provider.key}" class="selected-country" name="selected-country">
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="step" id="query">
+        <div class="container">
+            <h3>2. Enter company code</h3>
+            <input type="text" placeholder="Company code" id="companyCode">
+            <button id="performSearch">Perform lookup</button>
+            <small>Examples: try 90001354 for NL or 815597222 for NO</small>
+
+        </div>
+    </div>
+
+    <div class="container" id="error">
+        <div class="alert alert-warning">
+            <a href="#" class="close" data-dismiss="alert"
+               aria-label="close">×</a>
+            <strong id="errorMessage">Error message</strong>
+        </div>
+    </div>
+
+    <div class="step" id="result">
+        <div class="container">
+            <h3>3. Display results</h3>
+            <table>
+                <tr><th>Company Code:</th><td id="result-companyCode"></td></tr>
+                <tr><th>Company Name:</th><td id="result-companyName"></td></tr>
+                <tr><th>Company Type:</th><td id="result-companyType"></td></tr>
+                <tr><th>Legal Status:</th><td id="result-legalStatus"></td></tr>
+                <tr><th>Registration Authority:</th><td id="result-registrationAuthority"></td></tr>
+                <tr><th>Registration Date:</th><td id="result-registrationDate"></td></tr>
+                <tr><th>Street Name:</th><td id="result-streetName"></td></tr>
+                <tr><th>Postal Code:</th><td id="result-postalCode"></td></tr>
+                <tr><th>City:</th><td id="result-city"></td></tr>
+                <tr><th>Country:</th><td id="result-country"></td></tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="js/main.js"></script>
+
+<div id="spinner"></div>
+
+</body>
+</html>

@@ -17,26 +17,30 @@ public class CCRProviderService extends RestClient {
 		super();
 	}
 
-	public ChamberOfCommerceDataSet getDataSet(String kvk) throws IOException {
-		ChamberOfCommerceDataSet set = new ChamberOfCommerceDataSet();
-		String json = super.get("https://data.brreg.no/enhetsregisteret/api/enheter?navn=" + kvk);
-		JsonNode root = new ObjectMapper().readTree(json.getBytes(StandardCharsets.UTF_8));
-		JsonNode node = root.get("_embedded").get("enheter").get(0);
+	/*
+	Deleted unit: https://data.brreg.no/enhetsregisteret/api/enheter/818511752
+	https://data.brreg.no/enhetsregisteret/api/enheter/815597222
+	 */
 
-		set.setCompanyCode(node.get("organisasjonsnummer").asText());
-		set.setCompanyName(node.get("navn").asText());
-		set.setCompanyType("NOT_AVAILABLE");
-		set.setLegalStatus("NOT_AVAILABLE");
+	public ChamberOfCommerceDataSet getDataSet(String orgNo) throws IOException {
+		ChamberOfCommerceDataSet set = new ChamberOfCommerceDataSet();
+		String json = super.get("https://data.brreg.no/enhetsregisteret/api/enheter/" + orgNo);
+		JsonNode root = new ObjectMapper().readTree(json.getBytes(StandardCharsets.UTF_8));
+
+		set.setCompanyCode(root.get("organisasjonsnummer").asText());
+		set.setCompanyName(root.get("navn").asText());
+		set.setCompanyType(root.get("organisasjonsform") == null ? "NOT_AVAILABLE" : root.get("organisasjonsform").get("kode").asText());
+		set.setLegalStatus(GetLegalStatus(root));
 		set.setLegalStatusEffectiveDate("NOT_AVAILABLE");
 		set.setRegistrationAuthority("Central Coordinating Register for Legal Entities");
-		set.setRegistrationDate(node.get("stiftelsesdato") == null ? "NOT_AVAILABLE" : node.get("stiftelsesdato").asText());
+		set.setRegistrationDate(root.get("stiftelsesdato") == null ? "NOT_AVAILABLE" : root.get("stiftelsesdato").asText());
 		set.setRegistrationNumber("NOT_APPLICABLE");
 		set.setActivityDeclaration("NOT_AVAILABLE");
 		
 		Address address = new Address();
-		JsonNode a = node.get("postadresse");
+		JsonNode a = root.get("postadresse");
 		if (a == null) {
-			a = node.get("forretningsadresse");
+			a = root.get("forretningsadresse");
 		}
 
 		if (a != null) {
@@ -51,5 +55,21 @@ public class CCRProviderService extends RestClient {
 			set.setHeadOfficeAddres(address);
 		}
 		return set;
+	}
+
+	private String GetLegalStatus(JsonNode node) {
+		if (node.get("slettedato") != null) {
+			return "deleted";
+		}
+		if (node.get("konkurs").asText() != "false") {
+			return "bankrupt";
+		}
+		if (node.get("underAvvikling").asText() != "false") {
+			return "dissolving";
+		}
+		if (node.get("underTvangsavviklingEllerTvangsopplosning").asText() != "false") {
+			return "dissolving-forced";
+		}
+		return "active";
 	}
 }
