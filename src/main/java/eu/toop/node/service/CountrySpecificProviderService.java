@@ -26,6 +26,9 @@ public class CountrySpecificProviderService extends RestClient {
 
 		set.setCompanyName(root.get("companyName").asText());
 		set.setCompanyCode(root.get("companyCode").asText());
+		set.setCompanyType(root.get("companyType").asText());
+		set.setLegalStatus(root.get("legalStatus").asText());
+
 		set.setRegistrationAuthority(root.get("registrationAuthority").asText());
 		set.setRegistrationDate(root.get("registrationDate").asText());
 

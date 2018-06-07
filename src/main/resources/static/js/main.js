@@ -62,7 +62,7 @@ function showResults(obj) {
 function populateFields(obj) {
     for (var prop in obj) {
         if (obj.hasOwnProperty(prop) && $('#result-' + prop).length) {
-            $('#result-' + prop).text(obj[prop] ? obj[prop] : 'N/A');
+            $('#result-' + prop).html((obj[prop] && obj[prop] != 'NOT_AVAILABLE') ? obj[prop] : '<span class="not-available">N/A</span>');
         }
     }
 }
