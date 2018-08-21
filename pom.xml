@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>eu.toop.node</groupId>
-	<artifactId>toopnode</artifactId>
+	<artifactId>provider-node-no</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>toopnode</name>
+	<name>provider-node-no</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -100,6 +100,19 @@
 	        <artifactId>toopapi</artifactId>
 	        <version>0.0.1-SNAPSHOT</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

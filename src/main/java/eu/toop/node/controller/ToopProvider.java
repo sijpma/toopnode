@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.toop.node.model.DataSet;
-import eu.toop.node.service.ProviderService;
+import eu.toop.node.provider.ProviderService;
 
 @RestController
 public class ToopProvider {
